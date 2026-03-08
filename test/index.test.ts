@@ -94,11 +94,18 @@ describe('floo expressions', () => {
     expect(css).toContain('calc(100px + 100px * (100vw - 1280px) / 160px)')
   })
 
-  it('drops floo value without breakpoint variant', async () => {
+  it('uses default breakpoint context without prefix', async () => {
     const uno = await createUno()
     const { css } = await uno.generate('text-size-[~100px]')
-    expect(css).not.toContain('calc(')
-    expect(css).not.toContain('~')
+    expect(css).toContain('font-size:calc(100px * 100vw / 375px)')
+    expect(css).not.toContain('@media')
+  })
+
+  it('generates range calc without prefix', async () => {
+    const uno = await createUno()
+    const { css } = await uno.generate('text-size-[~0px-100px]')
+    // default: start=0, end=640 (sm breakpoint)
+    expect(css).toContain('calc(0px + 100px * (100vw - 0px) / 640px)')
   })
 
   it('drops invalid floo expression', async () => {

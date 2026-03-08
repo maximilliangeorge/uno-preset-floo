@@ -73,12 +73,7 @@ export function presetFloo(options: PresetFlooOptions = {}): Preset<FlooTheme> {
         }
 
         const bpMatch = util.parent?.match(/@media\s*\(min-width:\s*([\d.]+)px\)/)
-        if (!bpMatch) {
-          entry[1] = undefined
-          continue
-        }
-
-        const ctx = bpContextMap.get(bpMatch[1])
+        const ctx = bpMatch ? bpContextMap.get(bpMatch[1]) : bpContextMap.get('0')
         if (!ctx) {
           entry[1] = undefined
           continue
