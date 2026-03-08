@@ -18,20 +18,20 @@ describe('presetFloo', () => {
     expect(uno).toBeDefined()
   })
 
-  it('throws when ideals key is not in breakpoints', async () => {
+  it('throws when sweetspots key is not in breakpoints', async () => {
     await expect(
       createGenerator({
         theme: { breakpoints },
-        presets: [presetFloo({ ideals: { xxl: '1920px' } })],
+        presets: [presetFloo({ sweetspots: { xxl: '1920px' } })],
       })
     ).rejects.toThrow(/"xxl"/)
   })
 
-  it('does not throw when ideals keys match breakpoints', async () => {
+  it('does not throw when sweetspots keys match breakpoints', async () => {
     await expect(
       createGenerator({
         theme: { breakpoints },
-        presets: [presetFloo({ ideals: { sm: '390px', md: '768px' } })],
+        presets: [presetFloo({ sweetspots: { sm: '390px', md: '768px' } })],
       })
     ).resolves.toBeDefined()
   })
@@ -75,13 +75,13 @@ describe('floo expressions', () => {
     expect(css).toContain('gap:calc(16px * 100vw / 768px)')
   })
 
-  it('uses correct ideal for sm breakpoint', async () => {
+  it('uses correct sweetspot for sm breakpoint', async () => {
     const uno = await createUno()
     const { css } = await uno.generate('sm:text-size-[~100px]')
     expect(css).toContain('calc(100px * 100vw / 390px)')
   })
 
-  it('uses correct ideal for xl breakpoint', async () => {
+  it('uses correct sweetspot for xl breakpoint', async () => {
     const uno = await createUno()
     const { css } = await uno.generate('xl:text-size-[~100px]')
     expect(css).toContain('calc(100px * 100vw / 1440px)')
@@ -120,8 +120,8 @@ describe('floo expressions', () => {
     expect(css).toContain('calc(1.5rem * 100vw / 768px)')
   })
 
-  it('supports custom ideals', async () => {
-    const uno = await createUno({ ideals: { md: '800px' } })
+  it('supports custom sweetspots', async () => {
+    const uno = await createUno({ sweetspots: { md: '800px' } })
     const { css } = await uno.generate('md:text-size-[~100px]')
     expect(css).toContain('calc(100px * 100vw / 800px)')
   })
@@ -146,8 +146,8 @@ describe('floo expressions', () => {
     expect(css).toContain('calc(100px * (1 + (100vw - 375px) / 375px / 2))')
   })
 
-  it('supports custom default ideal', async () => {
-    const uno = await createUno({ ideals: { _: '360px' } })
+  it('supports custom default sweetspot', async () => {
+    const uno = await createUno({ sweetspots: { _: '360px' } })
     const { css } = await uno.generate('*:text-size-[~100px]')
     expect(css).toContain('calc(100px * 100vw / 360px)')
   })

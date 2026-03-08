@@ -35,7 +35,7 @@ export function parseFlooExpr(raw: string): FlooExpr | null {
 }
 
 export interface BreakpointContext {
-  ideal: number
+  sweetspot: number
   start: number
   end?: number
 }
@@ -43,7 +43,7 @@ export interface BreakpointContext {
 export function generateCalc(expr: FlooExpr, ctx: BreakpointContext): string | null {
   switch (expr.type) {
     case 'scale':
-      return `calc(${expr.value}${expr.unit} * 100vw / ${ctx.ideal}px)`
+      return `calc(${expr.value}${expr.unit} * 100vw / ${ctx.sweetspot}px)`
 
     case 'range': {
       if (ctx.end == null) return `${expr.start}${expr.unit}`
@@ -53,6 +53,6 @@ export function generateCalc(expr: FlooExpr, ctx: BreakpointContext): string | n
     }
 
     case 'dampened':
-      return `calc(${expr.value}${expr.unit} * (1 + (100vw - ${ctx.ideal}px) / ${ctx.ideal}px / ${expr.factor}))`
+      return `calc(${expr.value}${expr.unit} * (1 + (100vw - ${ctx.sweetspot}px) / ${ctx.sweetspot}px / ${expr.factor}))`
   }
 }

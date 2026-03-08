@@ -6,18 +6,18 @@ export { parseFlooExpr, generateCalc } from './expression'
 
 export interface FlooTheme {
   breakpoints?: Record<string, string>
-  ideals?: Record<string, string>
+  sweetspots?: Record<string, string>
 }
 
 export interface PresetFlooOptions {
   /**
-   * Ideal frame widths — the Figma frame width where each breakpoint looks its best.
+   * Sweetspot frame widths — the Figma frame width where each breakpoint looks its best.
    * Merges with the defaults if provided.
    */
-  ideals?: Record<string, string>
+  sweetspots?: Record<string, string>
 }
 
-const defaultIdeals: Record<string, string> = {
+const defaultSweetspots: Record<string, string> = {
   _: '375px',
   sm: '390px',
   md: '768px',
@@ -84,18 +84,18 @@ export function presetFloo(options: PresetFlooOptions = {}): Preset<FlooTheme> {
     },
 
     extendTheme(theme) {
-      const mergedIdeals = {
-        ...defaultIdeals,
-        ...options.ideals,
+      const mergedSweetspots = {
+        ...defaultSweetspots,
+        ...options.sweetspots,
       }
 
       if (theme.breakpoints) {
-        const idealKeys = Object.keys(mergedIdeals).filter(k => k !== '_')
+        const sweetspotKeys = Object.keys(mergedSweetspots).filter(k => k !== '_')
         const breakpointKeys = Object.keys(theme.breakpoints)
-        const unknown = idealKeys.filter(k => !breakpointKeys.includes(k))
+        const unknown = sweetspotKeys.filter(k => !breakpointKeys.includes(k))
         if (unknown.length > 0) {
           throw new Error(
-            `[unocss-preset-floo] ideals contains keys not found in breakpoints: ${unknown.map(k => `"${k}"`).join(', ')}.\n` +
+            `[unocss-preset-floo] sweetspots contains keys not found in breakpoints: ${unknown.map(k => `"${k}"`).join(', ')}.\n` +
             `  Breakpoint keys: ${breakpointKeys.map(k => `"${k}"`).join(', ')}`
           )
         }
@@ -105,10 +105,10 @@ export function presetFloo(options: PresetFlooOptions = {}): Preset<FlooTheme> {
           .sort((a, b) => a.px - b.px)
 
         // Default breakpoint: 0 → first breakpoint
-        const defaultIdeal = mergedIdeals['_']
-        if (defaultIdeal) {
+        const defaultSweetspot = mergedSweetspots['_']
+        if (defaultSweetspot) {
           bpContextMap.set('0', {
-            ideal: parsePx(defaultIdeal),
+            sweetspot: parsePx(defaultSweetspot),
             start: 0,
             end: sorted[0]?.px,
           })
@@ -116,14 +116,14 @@ export function presetFloo(options: PresetFlooOptions = {}): Preset<FlooTheme> {
 
         for (let i = 0; i < sorted.length; i++) {
           const { name, px } = sorted[i]
-          const idealValue = mergedIdeals[name]
-          const ideal = idealValue ? parsePx(idealValue) : px
+          const sweetspotValue = mergedSweetspots[name]
+          const sweetspot = sweetspotValue ? parsePx(sweetspotValue) : px
           const end = sorted[i + 1]?.px
-          bpContextMap.set(String(px), { ideal, start: px, end })
+          bpContextMap.set(String(px), { sweetspot, start: px, end })
         }
       }
 
-      theme.ideals = mergedIdeals
+      theme.sweetspots = mergedSweetspots
     },
   }
 }

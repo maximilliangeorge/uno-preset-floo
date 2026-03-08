@@ -27,9 +27,9 @@ export default defineConfig({
 
 Traditional responsive design relies on stepped breakpoints that snap between fixed layouts at arbitrary viewport widths. Floo takes a different approach: values scale smoothly with the viewport, so elements adapt fluidly rather than jumping between states.
 
-Floo introduces the concept of **ideals** — the frame widths in your Figma file where each breakpoint's design looks pixel-perfect. When you write `md:text-[~48px]`, you're saying "this text should be 48px at the `md` _ideal_ width, and scale proportionally from there." This maps directly to how designers work: designs are made for an _ideal_ viewport width, usually a common screen size.
+Floo introduces the concept of **sweetspots** — the frame widths in your Figma file where each breakpoint's design looks pixel-perfect. When you write `md:text-[~48px]`, you're saying "this text should be 48px at the `md` _sweetspot_ width, and scale proportionally from there." This maps directly to how designers work: designs are made for a _sweetspot_ viewport width, usually a common screen size.
 
-> Ideals and breakpoints are _not_ the same. Breakpoints define where a layout breaks and warrants a reflow. Ideals denote the viewport width the designer had in mind when working on the design.
+> Sweetspots and breakpoints are _not_ the same. Breakpoints define where a layout breaks and warrants a reflow. Sweetspots denote the viewport width the designer had in mind when working on the design.
 
 Floo provides three intuitive expression patterns that cover most fluid design needs:
 
@@ -61,7 +61,7 @@ Works with any utility that accepts arbitrary values — `w-`, `h-`, `p-`, `m-`,
 
 ### Scale — `~{value}{unit}`
 
-Scales linearly with viewport width relative to the ideal frame width.
+Scales linearly with viewport width relative to the sweetspot frame width.
 
 ```
 md:text-[~48px]
@@ -88,25 +88,25 @@ md:text-[~48px/2]
 
 ## Configuration
 
-### Ideals
+### Sweetspots
 
-Each breakpoint has an **ideal** — the Figma frame width where that breakpoint's design looks pixel-perfect. Expressions scale relative to these ideals.
+Each breakpoint has a **sweetspot** — the Figma frame width where that breakpoint's design looks pixel-perfect. Expressions scale relative to these sweetspots.
 
 Defaults:
 
-| Breakpoint    | Ideal  |
-| ------------- | ------ |
-| `_` (default) | 375px  |
-| `sm`          | 390px  |
-| `md`          | 768px  |
-| `lg`          | 1280px |
-| `xl`          | 1440px |
+| Breakpoint    | Sweetspot |
+| ------------- | --------- |
+| `_` (default) | 375px     |
+| `sm`          | 390px     |
+| `md`          | 768px     |
+| `lg`          | 1280px    |
+| `xl`          | 1440px    |
 
-Override or extend with the `ideals` option:
+Override or extend with the `sweetspots` option:
 
 ```ts
 presetFloo({
-  ideals: {
+  sweetspots: {
     _: '360px',
     md: '800px',
     '2xl': '1920px',
@@ -114,7 +114,7 @@ presetFloo({
 })
 ```
 
-Ideal keys must match your theme's breakpoint keys (except `_`, which is the default/mobile breakpoint).
+Sweetspot keys must match your theme's breakpoint keys (except `_`, which is the default/mobile breakpoint).
 
 ## Development
 

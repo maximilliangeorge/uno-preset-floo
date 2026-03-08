@@ -45,8 +45,8 @@ describe('parseFlooExpr', () => {
 })
 
 describe('generateCalc', () => {
-  const mdCtx: BreakpointContext = { ideal: 768, start: 768, end: 1280 }
-  const xlCtx: BreakpointContext = { ideal: 1440, start: 1440, end: undefined }
+  const mdCtx: BreakpointContext = { sweetspot: 768, start: 768, end: 1280 }
+  const xlCtx: BreakpointContext = { sweetspot: 1440, start: 1440, end: undefined }
 
   it('generates scale calc', () => {
     const expr = parseFlooExpr('100px')!
