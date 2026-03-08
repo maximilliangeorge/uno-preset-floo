@@ -118,4 +118,30 @@ describe('floo expressions', () => {
     const { css } = await uno.generate('md:text-size-[~100px]')
     expect(css).toContain('calc(100px * 100vw / 800px)')
   })
+
+  it('generates scale calc for *:text-size-[~100px]', async () => {
+    const uno = await createUno()
+    const { css } = await uno.generate('*:text-size-[~100px]')
+    expect(css).toContain('font-size:calc(100px * 100vw / 375px)')
+    expect(css).toContain('@media (min-width: 0px)')
+  })
+
+  it('generates range calc for *:text-size-[~100px-200px]', async () => {
+    const uno = await createUno()
+    const { css } = await uno.generate('*:text-size-[~100px-200px]')
+    // default: start=0, end=640 (sm breakpoint)
+    expect(css).toContain('calc(100px + 100px * (100vw - 0px) / 640px)')
+  })
+
+  it('generates dampened calc for *:text-size-[~100px/2]', async () => {
+    const uno = await createUno()
+    const { css } = await uno.generate('*:text-size-[~100px/2]')
+    expect(css).toContain('calc(100px * (1 + (100vw - 375px) / 375px / 2))')
+  })
+
+  it('supports custom default ideal', async () => {
+    const uno = await createUno({ ideals: { _: '360px' } })
+    const { css } = await uno.generate('*:text-size-[~100px]')
+    expect(css).toContain('calc(100px * 100vw / 360px)')
+  })
 })

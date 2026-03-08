@@ -76,7 +76,7 @@ let currentWidth = 768
 // --- Viewport presets ---
 
 const viewports = [
-  { label: '375', width: 375 },
+  { label: '390', width: 390 },
   { label: '640', width: 640 },
   { label: '768', width: 768 },
   { label: '1024', width: 1024 },
