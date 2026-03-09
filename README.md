@@ -1,13 +1,12 @@
 # unocss-preset-floo
 
-A [UnoCSS](https://unocss.dev) preset for fluid responsive design. Define responsive values with simple expressions that generate CSS `calc()` functions for smooth, viewport-aware scaling — no complex media query math required.
+A [UnoCSS](https://unocss.dev) preset for fluid responsive design. The preset provides a simple expression language that compiles to `calc()` functions for smooth, viewport-aware scaling — no complex media query math required.
 
-[Try the playground](https://maximilliangeorge.github.io/uno-preset-floo/)
+[Try the playground](https://maximilliangeorge.github.io/unocss-preset-floo/)
 
 ## Install
 
 ```bash
-# WIP! Not published to npm yet
 pnpm add -D unocss-preset-floo
 ```
 
@@ -19,7 +18,9 @@ import { defineConfig, presetUno } from 'unocss'
 import { presetFloo } from 'unocss-preset-floo'
 
 export default defineConfig({
-  presets: [presetUno(), presetFloo()],
+  presets: [presetUno(), presetFloo(sweetspots: {
+    // Read more about sweetspots down below
+  })],
 })
 ```
 
@@ -27,15 +28,15 @@ export default defineConfig({
 
 Traditional responsive design relies on stepped breakpoints that snap between fixed layouts at arbitrary viewport widths. Floo takes a different approach: values scale smoothly with the viewport, so elements adapt fluidly rather than jumping between states.
 
-Floo introduces the concept of **sweetspots** — the frame widths in your Figma file where each breakpoint's design looks pixel-perfect. When you write `md:text-[~48px]`, you're saying "this text should be 48px at the `md` _sweetspot_ width, and scale proportionally from there." This maps directly to how designers work: designs are made for a _sweetspot_ viewport width, usually a common screen size.
+Floo introduces the concept of **sweetspots** — the ideal width from your design file. When you write `md:text-[~48px]`, you're saying "this text should be 48px at the `md` _sweetspot_ width, and scale proportionally from there." This maps directly to how designers work: designs are made for a _sweetspot_ viewport width, usually a common screen size.
 
 > Sweetspots and breakpoints are _not_ the same. Breakpoints define where a layout breaks and warrants a reflow. Sweetspots denote the viewport width the designer had in mind when working on the design.
 
 Floo provides three intuitive expression patterns that cover most fluid design needs:
 
-- Scale expressions (`~48px`) make values grow or shrink linearly with viewport width.
-- Ranged expressions (`~16px-24px`) that interpolate between two values across a breakpoint range.
+- Scale expressions (`~48px`) make values grow or shrink linearly with viewport width, based on the sweetspot.
 - Dampened expressions (`~48px@0.5`) scale at a reduced rate for a throttled responsive behavior.
+- Ranged expressions (`~16px-24px`) that interpolate between two values across a _breakpoint_ range.
 - All three generate the appropriate `calc()` functions automatically, so you never have to write verbose viewport math by hand.
 
 Because Floo works as a UnoCSS preset, it integrates seamlessly with your existing utility classes. Any utility that accepts arbitrary values—whether `w-`, `h-`, `p-`, `m-`, `gap-`, `text-`, or others—can use fluid expressions. This means you get fluid responsive behavior without learning a new API or changing how you write styles.
@@ -90,7 +91,7 @@ md:text-[~48px@0.5]
 
 ### Sweetspots
 
-Each breakpoint has a **sweetspot** — the Figma frame width where that breakpoint's design looks pixel-perfect. Expressions scale relative to these sweetspots.
+Each breakpoint has a **sweetspot** — usually the Figma frame width. Non-ranged expressions scale relative to these sweetspots.
 
 Defaults:
 

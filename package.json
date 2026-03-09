@@ -1,18 +1,34 @@
 {
   "name": "unocss-preset-floo",
   "version": "0.1.0",
+  "description": "A UnoCSS preset for fluid responsive design — interpolate any CSS value between breakpoints",
   "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maximilliangeorge/unocss-preset-floo.git"
+  },
+  "keywords": [
+    "unocss",
+    "preset",
+    "fluid",
+    "responsive",
+    "clamp",
+    "interpolation"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "vite build",
     "test": "vitest run",
@@ -25,6 +41,7 @@
     "typescript": "^5.7.0",
     "unocss": "^0.65.0",
     "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.0.0"
   },
   "peerDependencies": {
